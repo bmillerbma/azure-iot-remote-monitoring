@@ -201,3 +201,4 @@ VendingMachineSample/packages/*
 
 # Merge file remains
 *.orig
+.vs/
