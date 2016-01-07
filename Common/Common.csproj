@@ -151,6 +151,8 @@
     <None Include="Deployment\Invoke-MsBuild.psm1" />
     <None Include="Deployment\PrepareIoTSample.ps1" />
     <None Include="Deployment\LocalMonitoring.json" />
+    <None Include="Deployment\Publish-AzureWebsite.ps1" />
+    <None Include="Deployment\pubxml.template" />
     <None Include="Deployment\RemoteMonitoring.json" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
