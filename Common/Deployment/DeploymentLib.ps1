@@ -617,16 +617,20 @@ function GetAADTenant()
         $directories = @()
         foreach ($tenant in $tenants)
         {
-            $uri = "https://graph.windows.net/{0}/me?api-version=1.6" -f $tenant
-            $authResult = GetAuthenticationResult $tenant "https://login.windows.net/" "https://graph.windows.net/" $global:AzureAccountName -Prompt "Auto"
-            $header = $authResult.CreateAuthorizationHeader()
-            $result = Invoke-RestMethod -Method "GET" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"}
-            if ($result -ne $null)
-            {
-                $directory = New-Object System.Object
-                $directory | Add-Member -MemberType NoteProperty -Name "Directory Name" -Value ($result.userPrincipalName.Split('@')[1])
-                $directory | Add-Member -MemberType NoteProperty -Name "Tenant Id" -Value $tenant
-                $directories += $directory
+            try {
+                $uri = "https://graph.windows.net/{0}/me?api-version=1.6" -f $tenant
+                $authResult = GetAuthenticationResult $tenant "https://login.windows.net/" "https://graph.windows.net/" $global:AzureAccountName -Prompt "Auto"
+                $header = $authResult.CreateAuthorizationHeader()
+                $result = Invoke-RestMethod -Method "GET" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"}
+                if ($result -ne $null)
+                {
+                    $directory = New-Object System.Object
+                    $directory | Add-Member -MemberType NoteProperty -Name "Directory Name" -Value ($result.userPrincipalName.Split('@')[1])
+                    $directory | Add-Member -MemberType NoteProperty -Name "Tenant Id" -Value $tenant
+                    $directories += $directory
+                }
+            } catch {
+                Write-Warning "Error reading tenant $tenant.  Skipping..." 
             }
         }
 
