@@ -11,6 +11,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// </summary>
     public interface IDataInitializer
     {
-        void CreateInitialDataIfNeeded();
+        void CreateInitialDataIfNeeded(int? waitMs = null);
     }
 }

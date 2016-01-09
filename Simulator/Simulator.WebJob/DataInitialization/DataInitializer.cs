@@ -39,10 +39,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             _deviceRulesLogic = deviceRulesLogic;
         }
 
-        public void CreateInitialDataIfNeeded()
+        public void CreateInitialDataIfNeeded(int? waitMs = null)
         {
             try
             {
+                // Allow a short sleep on startup to account for web job startup quirks
+                if (waitMs != null)
+                {
+                    System.Threading.Thread.Sleep(waitMs.Value);
+                }
+
                 bool initializationNeeded = false;
 
                 // only create default data if the action mappings are missing
